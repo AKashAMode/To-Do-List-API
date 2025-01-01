@@ -93,13 +93,15 @@ The application will run on `http://localhost:8080` by default.
 ### 3. Fetch a Task by ID
 **GET /tasks/{id}**
 
-### 4. Update Task Status
+### 4. Update Task by ID
 **PUT /tasks/{id}**
 - Request Body:
 ```json
 {
-    "status": "in-progress"
-}
+        "title": "Grocery Shopping",
+        "description": "Buy vegetables, fruits, and other essentials for the week.",
+        "status": "in-progress"
+    }
 ```
 
 ### 5. Delete a Task by ID
