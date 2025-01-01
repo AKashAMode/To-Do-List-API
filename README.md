@@ -82,36 +82,16 @@ The application will run on `http://localhost:8080` by default.
 ```json
 {
     "title": "Task Title",
-    "description": "Task Description"
-}
-```
-- Controller Method:
-```java
-@PostMapping  //this endpoint for adding a new task
-public Task createTask(@RequestBody Task task) {
-    return taskService.createTask(task);
+    "description": "Task Description",
+    "status": "pending"
 }
 ```
 
 ### 2. Fetch All Tasks
 **GET /tasks**
-- Controller Method:
-```java
-@GetMapping  //this endpoint for getting all tasks
-public List<Task> getAll() {
-    return taskService.getAllTask();
-}
-```
 
 ### 3. Fetch a Task by ID
 **GET /tasks/{id}**
-- Controller Method:
-```java
-@GetMapping("/getById/{id}")  //this endpoint for getting a task by ID
-public Task getById(@PathVariable int id) {
-    return taskService.getById(id);
-}
-```
 
 ### 4. Update Task Status
 **PUT /tasks/{id}**
@@ -121,23 +101,9 @@ public Task getById(@PathVariable int id) {
     "status": "in-progress"
 }
 ```
-- Controller Method:
-```java
-@PutMapping("/update/{id}")  //this endpoint for updating a task by ID
-public Task updateTask(@PathVariable int id, @RequestBody Task task) {
-    return taskService.updateTask(id, task);
-}
-```
 
 ### 5. Delete a Task by ID
 **DELETE /tasks/{id}**
-- Controller Method:
-```java
-@DeleteMapping("/delete/{id}")  //this endpoint for deleting a task by ID
-public String deleteTask(@PathVariable int id) {
-    return taskService.deleteTask(id);
-}
-```
 
 ---
 
@@ -159,7 +125,7 @@ You can use tools like Postman or cURL to test the endpoints.
 ```bash
 curl -X POST http://localhost:8080/tasks \
 -H "Content-Type: application/json" \
--d '{"title": "Buy Groceries", "description": "Get vegetables and fruits"}'
+-d '{"title": "Buy Groceries", "description": "Get vegetables and fruits", "status": "pending"}'
 ```
 
 2. **Fetch All Tasks**:
