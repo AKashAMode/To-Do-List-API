@@ -14,7 +14,7 @@ This application provides a simple REST API for managing a to-do list. Users can
 - Java
 - Spring Boot
 - JPA/Hibernate
-- H2 Database (in-memory database for development)
+- MySQL Database
 - Maven
 
 ---
@@ -23,7 +23,8 @@ This application provides a simple REST API for managing a to-do list. Users can
 Ensure you have the following installed on your machine:
 1. Java Development Kit (JDK) 11 or higher
 2. Maven
-3. An IDE (e.g., IntelliJ IDEA, Eclipse) or a text editor (e.g., Visual Studio Code)
+3. MySQL Server
+4. An IDE (e.g., IntelliJ IDEA, Eclipse) or a text editor (e.g., Visual Studio Code)
 
 ---
 
@@ -39,13 +40,26 @@ https://github.com/your-username/todo-list-api.git
 cd todo-list-api
 ```
 
-### 3. Build the Application
+### 3. Configure the Database
+- Create a new database in MySQL:
+```sql
+CREATE DATABASE todo_db;
+```
+- Update the `application.properties` file with your MySQL credentials:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/todo_db
+spring.datasource.username=your-username
+spring.datasource.password=your-password
+spring.jpa.hibernate.ddl-auto=update
+```
+
+### 4. Build the Application
 Ensure that Maven is installed and configured correctly.
 ```bash
 mvn clean install
 ```
 
-### 4. Run the Application
+### 5. Run the Application
 Start the application using the following command:
 ```bash
 mvn spring-boot:run
@@ -55,7 +69,7 @@ Alternatively, you can run the generated `.jar` file:
 java -jar target/todo-list-api-0.0.1-SNAPSHOT.jar
 ```
 
-### 5. Access the API
+### 6. Access the API
 The application will run on `http://localhost:8080` by default.
 
 ---
@@ -71,12 +85,33 @@ The application will run on `http://localhost:8080` by default.
     "description": "Task Description"
 }
 ```
+- Controller Method:
+```java
+@PostMapping  //this endpoint for adding a new task
+public Task createTask(@RequestBody Task task) {
+    return taskService.createTask(task);
+}
+```
 
 ### 2. Fetch All Tasks
 **GET /tasks**
+- Controller Method:
+```java
+@GetMapping  //this endpoint for getting all tasks
+public List<Task> getAll() {
+    return taskService.getAllTask();
+}
+```
 
 ### 3. Fetch a Task by ID
 **GET /tasks/{id}**
+- Controller Method:
+```java
+@GetMapping("/getById/{id}")  //this endpoint for getting a task by ID
+public Task getById(@PathVariable int id) {
+    return taskService.getById(id);
+}
+```
 
 ### 4. Update Task Status
 **PUT /tasks/{id}**
@@ -86,19 +121,33 @@ The application will run on `http://localhost:8080` by default.
     "status": "in-progress"
 }
 ```
+- Controller Method:
+```java
+@PutMapping("/update/{id}")  //this endpoint for updating a task by ID
+public Task updateTask(@PathVariable int id, @RequestBody Task task) {
+    return taskService.updateTask(id, task);
+}
+```
 
 ### 5. Delete a Task by ID
 **DELETE /tasks/{id}**
+- Controller Method:
+```java
+@DeleteMapping("/delete/{id}")  //this endpoint for deleting a task by ID
+public String deleteTask(@PathVariable int id) {
+    return taskService.deleteTask(id);
+}
+```
 
 ---
 
-## H2 Database Console
-You can access the H2 database console at:
-`http://localhost:8080/h2-console`
+## MySQL Database
+Ensure that the MySQL server is running and properly configured. The application connects to the `todo_db` database using the credentials provided in the `application.properties` file.
 
-- Default JDBC URL: `jdbc:h2:mem:testdb`
-- Username: `sa`
-- Password: (leave empty)
+You can verify the data using any MySQL client or command-line tool:
+```sql
+SELECT * FROM tasks;
+```
 
 ---
 
